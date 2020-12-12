@@ -25,6 +25,7 @@ class Scorecard():
 
         self.scores = pd.DataFrame(data=board_info)
         self.is_done = False
+        print('hi')
 
     def update_scorecard(self, category, score=None):
 
