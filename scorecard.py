@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import math
 
 class Scorecard():
@@ -25,27 +26,29 @@ class Scorecard():
 
         self.scores = pd.DataFrame(data=board_info)
         self.is_done = False
-        print('hi')
+        self.scores_new = np.zeros(13) - 1
 
-    def update_scorecard(self, category, score=None):
+    def update_scorecard(self, category, score):
 
-        if not math.isnan(self.scores.loc[1, category]):
-            self.scores.loc[0, category] = self.scores.loc[1, category]
-        else:
-            self.scores.loc[0, category] = score
+        self.scores_new[category] = score
+
+
+    def get_open_categories(self):
+        return np.where(self.scores_new == -1)[0]
 
     def get_score(self, category):
         return self.scores.loc[0, category]
 
     def is_full(self):
-        if self.scores.loc[0].value_counts()[-1] == 0:
+        if np.min(self.scores_new) > -1:
             return True
         else:
             return False
 
 
+
     def calculate_score(self):
-        return self.scores.loc[0].sum()
+        return np.sum(self.scores_new)
 
 
 
